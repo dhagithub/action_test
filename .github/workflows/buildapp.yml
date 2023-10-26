@@ -1,0 +1,29 @@
+name: build app
+on: workflow_dispatch
+jobs:
+    build:
+        runs-on: windows-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@4
+          with:
+            fetch-depth: 0
+            
+        - name: Setup MSBuild.exe
+          uses: microsoft/setup-msbuild@v1.3.1
+        
+        - name: Restore Nuget
+          working-directory: .\src\SampleApps
+          run: msbuild . /t:restore
+
+        - name: Build
+          working-directory: .\src\SampleApps
+          run: msbuild . /p:configuration="debug"
+        
+        - name: Upload artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: SampleApps_${{ github.run_number }}
+            path: .\src\SampleApps\*.*
+      
+
