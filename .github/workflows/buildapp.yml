@@ -13,17 +13,17 @@ jobs:
           uses: microsoft/setup-msbuild@v1.3.1
         
         - name: Restore Nuget
-          working-directory: .\src\SampleApps
+          working-directory: ./src/SampleApps
           run: msbuild . /t:restore
 
         - name: Build
-          working-directory: .\src\SampleApps
+          working-directory: ./src/SampleApps
           run: msbuild . /p:configuration="debug"
         
         - name: Upload artifact
           uses: actions/upload-artifact@v3
           with:
             name: SampleApps_${{ github.run_number }}
-            path: .\src\SampleApps\*.*
+            path: ./src/SampleApps/**/*.*
       
 
